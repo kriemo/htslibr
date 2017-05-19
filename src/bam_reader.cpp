@@ -17,7 +17,7 @@ BamReader::BamReader(const std::string& bampath){
     }
   }
 
-//' @export
+
 // [[Rcpp::export]]
 DataFrame read_bam(std::string bampath) {
   // open bam
