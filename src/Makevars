@@ -1,0 +1,11 @@
+PKG_CPPFLAGS = -I../inst/include/ -L/usr/lib -lz -lm -lhts -Lhtslib/
+
+PKG_LIBS= -lhts -Lhtslib/ -lz -lm
+.PHONY: htslib all
+
+all : $(SHLIB)
+
+$(SHLIB) : htslib
+
+htslib:
+	(cd htslib; make lib-static; )
