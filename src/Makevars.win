@@ -1,3 +1,13 @@
-PKG_CPPFLAGS = -I../inst/include
+PKG_CPPFLAGS = -I../inst/include -lz -lm -lhts -Lhtslib/
 CXX_STD = CXX11
 CXX11FLAGS += -std=c++11
+
+PKG_LIBS= -lhts -Lhtslib/ -lz -lm
+.PHONY: htslib all
+
+all: $(SHLIB)
+
+$(SHLIB): htslib
+
+htslib:
+	(cd htslib; $(MAKE) lib-static CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"; cd ..)
