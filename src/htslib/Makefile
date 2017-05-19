@@ -105,21 +105,21 @@ NUMERIC_VERSION = $(PACKAGE_VERSION)
 # as $(PACKAGE_VERSION) above, or an exact description likely based on a tag.
 # Much of this is also GNU Make-specific.  If you don't have GNU Make and/or
 # are not building from a Git repository, comment out this conditional.
-ifneq "$(wildcard .git)" ""
-original_version := $(PACKAGE_VERSION)
-PACKAGE_VERSION := $(shell git describe --always --dirty)
+#ifneq "$(wildcard .git)" ""
+#original_version := $(PACKAGE_VERSION)
+#PACKAGE_VERSION := $(shell git describe --always --dirty)
 
 # Unless the Git description matches /\d*\.\d*(\.\d*)?/, i.e., is exactly a tag
 # with a numeric name, revert $(NUMERIC_VERSION) to the original version number
 # written above, but with the patchlevel field bumped to 255.
-ifneq "$(subst ..,.,$(subst 0,,$(subst 1,,$(subst 2,,$(subst 3,,$(subst 4,,$(subst 5,,$(subst 6,,$(subst 7,,$(subst 8,,$(subst 9,,$(PACKAGE_VERSION))))))))))))" "."
-empty :=
-NUMERIC_VERSION := $(subst $(empty) ,.,$(wordlist 1,2,$(subst ., ,$(original_version))) 255)
-endif
+#ifneq "$(subst ..,.,$(subst 0,,$(subst 1,,$(subst 2,,$(subst 3,,$(subst 4,,$(subst 5,,$(subst 6,,$(subst 7,,$(subst 8,,$(subst 9,,$(PACKAGE_VERSION))))))))))))" "."
+#empty :=
+#NUMERIC_VERSION := $(subst $(empty) ,.,$(wordlist 1,2,$(subst ., ,$(original_version))) 255)
+#endif
 
 # Force version.h to be remade if $(PACKAGE_VERSION) has changed.
-version.h: $(if $(wildcard version.h),$(if $(findstring "$(PACKAGE_VERSION)",$(shell cat version.h)),,force))
-endif
+#version.h: $(if $(wildcard version.h),$(if $(findstring "$(PACKAGE_VERSION)",$(shell cat version.h)),,force))
+#endif
 
 version.h:
 	echo '#define HTS_VERSION "$(PACKAGE_VERSION)"' > $@
@@ -205,16 +205,16 @@ lib-static: libhts.a
 
 # $(shell), :=, and ifeq/.../endif are GNU Make-specific.  If you don't have
 # GNU Make, comment out the parts of this conditional that don't apply.
-PLATFORM := $(shell uname -s)
-ifeq "$(PLATFORM)" "Darwin"
-SHLIB_FLAVOUR = dylib
-lib-shared: libhts.dylib
-BUILT_PLUGINS = $(PLUGIN_OBJS:.o=.bundle)
-else
-SHLIB_FLAVOUR = so
-lib-shared: libhts.so
-BUILT_PLUGINS = $(PLUGIN_OBJS:.o=.so)
-endif
+#PLATFORM := $(shell uname -s)
+#ifeq "$(PLATFORM)" "Darwin"
+#SHLIB_FLAVOUR = dylib
+#lib-shared: libhts.dylib
+#BUILT_PLUGINS = $(PLUGIN_OBJS:.o=.bundle)
+#else
+#SHLIB_FLAVOUR = so
+#lib-shared: libhts.so
+#BUILT_PLUGINS = $(PLUGIN_OBJS:.o=.so)
+#endif
 
 plugins: $(BUILT_PLUGINS)
 
