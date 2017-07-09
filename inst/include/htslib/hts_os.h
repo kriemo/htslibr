@@ -1,9 +1,9 @@
-/// @file htslib/vcf_sweep.h
-/// Forward/reverse sweep API.
+/// @file hts_os.h
+/// Operating System specific tweaks, for compatibility with POSIX.
 /*
-    Copyright (C) 2013 Genome Research Ltd.
+   Copyright (C) 2017 Genome Research Ltd.
 
-    Author: Petr Danecek <pd3@sanger.ac.uk>
+    Author: James Bonfield <jkb@sanger.ac.uk>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.  */
 
-#ifndef HTSLIB_VCF_SWEEP_H
-#define HTSLIB_VCF_SWEEP_H
+#ifndef HTSLIB_HTS_OS_H
+#define HTSLIB_HTS_OS_H
 
-#include "hts.h"
-#include "vcf.h"
+extern void srand48(long seed);
+extern double drand48(void);
+extern long lrand48(void);
 
-#ifdef __cplusplus
-extern "C" {
+#ifdef _WIN32
+/* Check if the fd is a cygwin/msys's pty. */
+extern int is_cygpty(int fd);
 #endif
 
-typedef struct _bcf_sweep_t bcf_sweep_t;
+#if defined(__MINGW32__)
+#include <io.h>
+#define mkdir(filename,mode) mkdir((filename))
+#endif
 
-bcf_sweep_t *bcf_sweep_init(const char *fname);
-void bcf_sweep_destroy(bcf_sweep_t *sw);
-bcf_hdr_t *bcf_sweep_hdr(bcf_sweep_t *sw);
-bcf1_t *bcf_sweep_fwd(bcf_sweep_t *sw);
-bcf1_t *bcf_sweep_bwd(bcf_sweep_t *sw);
-
-#ifdef __cplusplus
-}
+#ifdef _WIN32
+#include <stdlib.h>
+#define srandom srand
+#define random rand
 #endif
 
 #endif
