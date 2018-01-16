@@ -1,7 +1,6 @@
 CXX_STD = CXX11
-PKG_CPPFLAGS = -I../inst/include/ -lz -lm -lhts -Lhtslib/
-
 PKG_LIBS= -lhts -Lhtslib/ -lz -lm
+PKG_CPPFLAGS = -I../inst/include/
 .PHONY: htslib all
 
 all: $(SHLIB)
@@ -9,4 +8,4 @@ all: $(SHLIB)
 $(SHLIB): htslib
 
 htslib:
-	(cd htslib; $(MAKE) lib-static CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"; cd ..)
+	(cd htslib; $(MAKE) lib-static CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"; $(MAKE) mostlyclean ; cd ..)

@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // read_bam
 DataFrame read_bam(std::string bampath);
-RcppExport SEXP htslibr_read_bam(SEXP bampathSEXP) {
+RcppExport SEXP _htslibr_read_bam(SEXP bampathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
